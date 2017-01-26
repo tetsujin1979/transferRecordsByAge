@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html ng-app="app">
+
+  <head>
+    <script data-require="angular.js@1.5.3" data-semver="1.5.8" src="https://code.angularjs.org/1.5.8/angular.js"></script>
+    <script src="chart.min.js"></script>
+    <script src="angular-chart.min.js"></script>
+  </head>
+
+  <body ng-controller="LineCtrl as lineCtrl">
+    <div>
+      <canvas id="bar" class="chart chart-bar" chart-data="lineCtrl.data" chart-labels="lineCtrl.labels" chart-options="lineCtrl.options" chart-colors="lineCtrl.colors"></canvas>
+      <div>{{lineCtrl.age}} - {{lineCtrl.playerName}} ({{lineCtrl.amount}} - {{lineCtrl.fromTo}})</div>
+      <div>{{lineCtrl.paragraph}}</div>
+    <script>
+    var app = angular.module("app", ["chart.js"]);
+	angular.module("app").controller("LineCtrl", function ($scope, $filter) {
+ 		var vm = this;
+		var playerNames = ["Finley Burns", "Sheyi Ojo", "Fran Merida", "Theo Walcott", "Alex Pato", "Luke Shaw", "Anthony Martial", "Raheem Sterling", "Neymar", "John Stones", "Paul Pogba", "Gareth Bale", "Oscar", "Angel di Maria", "Luis Suarez", "Gonzalo Higuain", "Zinedine Zidane", "Diego Milito", "Gabriel Batistuta", "Carlos Tevez", "Claudio Bravo", "Lilian Thuram", "Shay Given", "David James", "Brad Friedel", "Marko Simeunovic"];
+		var fromTo = ["Southend to Manchester City", "MK Dons to Liverpool", "Barcelona to Arsenal", "Southampton to Arsenal", "Internacional to AC Milan", "Southampton to Manchester United", "Monaco to Manchester United", "Liverpool to Manchester City", "Santos to Barcelona", "Everton to Manchester City", "Juventus to Manchester United", "Tottenha00,000to Real Madrid", "Chelsea to Shanghai SIPG", "Real Madrid to Manchester United", "Liverpool to Barcelona", "Napoli to Juventus", "Juventus to Real Madrid", "Genoa to Inter", "Fiorentina to Roma", "Boca Juniors to Shanghai Shenhua", "Barcelona to Manchester City", "Juventus to Barcelona", "Manchester City to Aston Villa", "Manchester City to Portsmouth", "Blackburn to Aston Villa", "AEL Limassol to Interblock"];
+
+		var paragraphs = [
+			"'Seriously. Manchester City paid £175,000 to Southend earlier this month to beat Liverpool, Chelsea and Arsenal to the signing of 13-year-old Finley Burns, a defender who is just two years out of primary school. The first major tournament he can properly recall would either be the 2010 World Cup or Euro 2012. It’s at this stage the bitter realisation sets in that you’ve actually done f*** all with your life and you’re a massive wastrel.",
+			"'Sheyi Ojo joined Liverpool so long ago that Kenny Dalglish was in the midst of his second spell as manager at Anfield in 2011 when the then-14-year-old signed. The Reds were forced into a bidding war with Chelsea for the winger, who had already won two England youth caps at international level before leaving MK Dons.",
+			"'An absolutely amazing player,' was the assessment Arsene Wenger offered of Fran Merida shortly after the midfielder experienced the initiation any young Spanish player worth their salt should: the journey from Barcelona to Arsenal. The midfielder would make just 16 appearances before leaving to join Real Sociedad in 2007. But he remains the most expensive 15-year-old of all-time, having taken that particular record off another Gunners purchase – Jermaine Pennant, who Arsenal paid Notts County £2m for in 1999.",
+			"Friday represented the 11th anniversary of the most historic day in Arsenal’s history. In January 2006 they surprised the football world by throwing plenty of the money at Southampton in order to procure the services of young Theo James Walcott – and Gunners fans still love him… The original fee for Walcott was £5m, with add-ons taking it to £9.1m. Mere months after moving to the Emirates Stadium – and before he had even made his Arsenal debut – the 16-year-old was named in Sven-Goran Eriksson’s England 2006 World Cup squad. The jump to the second most expensive 16-year-old of ever is a large one. Chelsea spent £2m on one Slobodan Rajković in 2007. Nope, us neither.",
+			"Liverpool once broke the record for the largest fee ever paid for a 17-year-old when they signed Wayne Harrison from Oldham for £250,000 in 1985. Borussia Dortmund spent £8.25m on the ‘next Zlatan Ibrahimovic’ on Monday. Such figures are a drop in the ocean compared to the £18m AC Milan paid to sign future Chelsea legend Alexandre Pato in 2007.",
+			"Edging out Wayne Rooney by £2m is close friend of Jose Mourinho, Luke Shaw. The 18-year-old had just been named in the PFA Team of the Year when Manchester United swooped in to sign him for just under £30m in summer 2014. He probably didn’t expect to be behind Matteo Darmian, Daley Blind and Henrikh Mkhitaryan in the left-back pecking order two-and-a-half years later.",
+			"Shaw would hold the title of most-expensive teenager in world football history for just over a year. He would lose it to new teammate Martial, who moved to Old Trafford for £36.7m in September 2015, having made 70 career appearances at that point. 'It was a ridiculous amount of money, but it’s the crazy world we are in,' said manager Louis van Gaal at the time. 'I have not bought Martial for me. I have bought him for the next manager of Manchester United.' A lovely present to Jose, certainly. One he cherishes to this day.",
+			"Congratulations to Manchester City, who not only have the most expensive 20-year-old ever, but the second most expensive, too. Liverpool stand to earn up to £49m for the 2015 sale of footie idiot Raheem Sterling, while City also spent £37m on bringing Leroy Sane to the club this summer. It’s a strange fetish, sure.",
+			"It’s difficult to decipher exactly what the official fee for Neymar’s move to Barcelona in 2013 was. Announced at the time as a £49m deal, legal wranglings and tax disputes take the actual figure to something slightly above £200m – although the official price paid for the player himself was revealed in January 2014 to be £71.5m. It is almost double the £38.1m fee Monaco paid Porto to sign a 21-year-old James Rodriguez in 2013.",
+			"Just think, Finley Burns could be worth £47.5m in nine years’ time. He’d be just as much of a local hero.",
+			"How stunned are you that the most expensive player in the world is also the most expensive 23-year-old? He displaced James Rodriguez last year, the Colombian having moved from Monaco to Real Madrid for £71m in summer 2014.",
+			"The same age as Cristiano Ronaldo when he secured his dream move to the Bernabeu four years prior, Gareth Bale became the most expensive player in the world when Daniel Levy held out for £85m in 2013. The Welshman has a lot to thank Harry Redknapp for: the man who took him from nothing, didn’t try and flog him off to Birmingham for a pittance at all, played him as a winger because Benoit Assou-Ekotto was too good at left-back, and turned him into the player he is today.",
+			"Jamie Carragher might not be too happy about it, but who can honestly, hand on heart, say they didn’t dream of one day becoming the most expensive 25-year-old in football?",
+			"Coming soon to an unnamed Chinese Super League club nowhere near you, Angel di Maria was a whirlwind of debuts against Burnley, lovely goals against Leicester, red cards against Arsenal and playing as a striker under Louis van Gaal when he joined Manchester United for a British-record fee in summer 2014. He was gone within a year.",
+			"You might have heard about this one. He came to England, saw, conquered, bit, did a racism and then engineered a move to Barcelona. Right now, Suarez’s form makes his price look cheap. Which is a bit mad.",
+			"Not saying that Higuain won this one easily, but he pips Pavel Nedved to the post by a cool £40m. Juventus were anticipating the sale of Paul Pogba for a world-record fee, and splurged more than £75m on the striker they hope will win them the Champions League. Higuain has 13 Serie A goals in 19 matches this season, but that isn’t the real quiz.",
+			"I know you didn’t ask for the difference between football 15 years ago and today to be defined in two transfers, but I’m going to do it anyway. In 2001, Zinedine Zidane cost £46.7m at the age of 29; he was the best player in the world. In 2016, Hulk cost £46.1m at the age of 29; he was not the best player in the world.",
+			"For those of you who assume spending big money on a player who is the wrong side of 30 is false economy, think on. Milito cost Inter a princely sum but scored both goals in the final as they won the Champions League in 2010 to wrap up their treble. Cue Jose Mourinho, smiling like the cat who rented out a room next to the cream factory.",
+			"Even saying the name out loud makes the hair on the back of my neck stand up. Batistuta stayed loyal to the Viola cause for almost a decade, but joined Roma for a record fee for an over-30 player in 2000 in a bid to win the Scudetto. Batigol promptly scored 20 Serie A goals as Roma won the title. Magic.",
+			"It’s all very well being adored by tens of thousands of people upon your return for an emotional homecoming to where it all began, but then somebody offers you £615,000 a week and you realise you could be paid a heck of a lot of money for everyone in the town to call you brilliant and say you’re the best.",
+			"You can keep the faith that Bravo might turn around his Manchester City form, but let’s not pretend he was ever a long-term option. While Joe Hart stews in Turin, a 33-year-old Chilean does a working impression of when you made your little brother go in goal in the garden for a wonderful football ego trip.",
+			"We enter into the petty cash section of our list, but Thuram is the oldest outfielder present. The Frenchman left Juventus after demotion to Serie B, and largely played a back-up role until retiring with a rare heart condition.",
+			"There’s no doubt that Given was still reliable at the age of 35, but it was a bit odd that Aston Villa spent £3.5m on a 35-year-old goalkeeper who they made No. 1 and then dropped after one season. Then you look at the bottom of the list and realise what they were attempting.",
+			"Signed at the age of 36, and went on to stay for four years and captain Portsmouth to their FA Cup triumph under Harry Redknapp. A good investment from ‘Arry, which is something you can’t say about [redacted] or [redacted] with [redacted].",
+			"Old-goalkeeper-fetishists Aston Villa signed Friedel at the age of 37, and he still managed to play 133 times for them. If you think that’s impressive, he then left for Tottenham and played 67 more.",
+			"Who?"
+		];
+		vm.labels = [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38];
+		vm.data = [
+    		[175000, 2000000, 2200000, 9100000, 18000000, 27000000, 36700000, 44000000, 71500000, 47500000, 89300000, 85000000, 60000000, 59700000, 65000000, 75300000, 46700000, 24700000, 23500000, 9000000, 17000000, 3400000, 3500000, 1200000, 2500000, 750000],
+  		];
+  		vm.series = [["Series"]];
+		vm.options = {
+		  tooltips: {
+			callbacks: {
+			  title: function (tooltipItem, data) {
+				return playerNames[tooltipItem[0].index];
+			  },
+			  beforeLabel: function (el) {
+				var retVal = $filter('currency')(vm.data[0][el.index], '£');
+				return retVal;
+			  },
+			  label: function (el) {
+				setParagraph(el.index)
+				var retVal = fromTo[el.index];
+				return retVal;
+			  }
+			}
+		  }
+		};
+		vm.colors = ['#123baa', '#ffc000', '#FF0000', '#0000ff', '#7f0000', '#0000ff', '#000040', '#ff0000', '#0000bf', '#000066', '#ffff00', '#f07925', '#002ce6', '#ff0000', '#ff0000', '#ff0000', '#ff0000', '#0000ff', '#ff0000', '#0000ff', '#0000ff', '#000000', '#ff0000', '#ff0000', '#0000ff', '#172442', '#0000ff', '#ff0000', '#ff9900', '#00004f', '#ff0000', '#ffff00', '#003e9e', '#2200cc', '#ff0000', '#84092e', '#000000', '#84092e', '#0000ff', '#000000', '#000060', '#ff0000', '#71affa', '#008fff', '#0000ee', '#ffc200', '#0000ff'];
+		vm.paragraph = paragraphs[0];
+		vm.age = vm.labels[0];
+  		vm.playerName = playerNames[0];
+  		vm.amount = vm.data[0][0];
+  		vm.fromTo = fromTo[0];
+
+  		function setParagraph(index) {
+  			 $scope.$apply(function () {
+  				vm.paragraph = paragraphs[index];
+  				vm.age = vm.labels[index];
+  				vm.playerName = playerNames[index];
+  				vm.amount = vm.data[0][index];
+  				vm.fromTo = fromTo[index];
+			});
+		}
+	});
+    </script>
+  </body>
+
+</html>
