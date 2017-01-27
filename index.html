@@ -8,7 +8,7 @@
   </head>
 
   <body ng-controller="LineCtrl as lineCtrl">
-    <div>
+    <div style="width: 50%">
       <canvas id="bar" class="chart chart-bar" chart-data="lineCtrl.data" chart-labels="lineCtrl.labels" chart-options="lineCtrl.options" chart-colors="lineCtrl.colors"></canvas>
       <div>{{lineCtrl.age}} - {{lineCtrl.playerName}} ({{lineCtrl.amount}} - {{lineCtrl.fromTo}})</div>
       <div>{{lineCtrl.paragraph}}</div>
